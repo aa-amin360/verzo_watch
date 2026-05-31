@@ -54,14 +54,18 @@ function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => vo
   );
 }
 
-export const getRouter = () => {
-  const router = createRouter({
+export function getRouter() {
+  return createRouter({
     routeTree,
     context: {},
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
   });
+}
 
-  return router;
-};
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: ReturnType<typeof getRouter>;
+  }
+}
